@@ -20,7 +20,7 @@ public class RedisHandler {
     public static final String IP = "127.0.0.1";
     public static final int PORT = 6379;
 
-    public static String initJedis(String ip, int port) {
+    public static String initJedispool(String ip, int port) {
         JedisPoolConfig config = new JedisPoolConfig();
         //config.setMaxActive(100);
         config.setMaxWait(5000);
@@ -104,13 +104,14 @@ public class RedisHandler {
     }
 
     public static String concurrent(int number, final int operation) {
-        long begin = System.currentTimeMillis();
+        long begin = System.nanoTime();
         final CountDownLatch latch = new CountDownLatch(number);
         for (int i = 0; i < number; i++) {
             final int t = i;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    long begin = System.nanoTime();
                     Jedis jedis = getJedis();
                     for (int j = 0; j < operation; j++) {
                         if (j % 2 == 0) {
@@ -119,7 +120,7 @@ public class RedisHandler {
                             jedis.set(stringFull(t + "_" + j), t + "" + j);
                         }
                     }
-                    System.out.println("Thread " + t + " is over!");
+                    System.out.println("Thread " + t + " is over!, it costs " + (System.nanoTime() - begin) + "ns");
                     releaseJedis(jedis);
                     latch.countDown();
                 }
@@ -130,7 +131,7 @@ public class RedisHandler {
         } catch (InterruptedException e) {
 
         }
-        return (System.currentTimeMillis() - begin) + "ms";
+        return (System.nanoTime() - begin) + "ns";
     }
 
 }

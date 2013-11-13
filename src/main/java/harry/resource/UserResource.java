@@ -21,21 +21,21 @@ import javax.ws.rs.core.Response;
 public class UserResource {
 
     public UserResource() {
-        RedisHandler.initJedis(RedisHandler.IP,RedisHandler.PORT);
+        RedisHandler.initJedispool(RedisHandler.IP, RedisHandler.PORT);
     }
 
     @POST
     @Produces("application/json")
     public Response setValue(@FormParam("key") String key, @FormParam("value") String value) {
-        long begin = System.currentTimeMillis();
-        return Response.status(200).entity(new Gson().toJson(new ResultBean(RedisHandler.setValue(key, value), String.valueOf(System.currentTimeMillis() - begin)))).build();
+        long begin = System.nanoTime();
+        return Response.status(200).entity(new Gson().toJson(new ResultBean(RedisHandler.setValue(key, value), String.valueOf(System.nanoTime() - begin)))).build();
     }
 
     @GET
     @Produces("application/json")
     public Response getValue(@QueryParam("key") String key) {
-        long begin = System.currentTimeMillis();
-        return Response.status(200).entity(new Gson().toJson(new ResultBean(RedisHandler.getValue(key), String.valueOf(System.currentTimeMillis() - begin)))).build();
+        long begin = System.nanoTime();
+        return Response.status(200).entity(new Gson().toJson(new ResultBean(RedisHandler.getValue(key), String.valueOf(System.nanoTime() - begin)))).build();
     }
 
     @GET
@@ -63,16 +63,17 @@ public class UserResource {
     @Path("/init.do")
     @Produces("application/json")
     public Response init(@FormParam("number") long number) {
-        long begin = System.currentTimeMillis();
-        return Response.status(200).entity(new Gson().toJson(new ResultBean(String.valueOf(RedisHandler.init(number)), String.valueOf(System.currentTimeMillis() - begin)))).build();
+        long begin = System.nanoTime();
+        return Response.status(200).entity(new Gson().toJson(new ResultBean(String.valueOf(RedisHandler.init(number)), String.valueOf(System.nanoTime() - begin)))).build();
     }
 
     @POST
     @Path("/address.do")
     @Produces("application/json")
     public Response address(@FormParam("ip") String ip,@FormParam("port") String port) {
-        long begin = System.currentTimeMillis();
-        return Response.status(200).entity(new Gson().toJson(new ResultBean(String.valueOf(RedisHandler.initJedis(ip,Integer.parseInt(port))), String.valueOf(System.currentTimeMillis() - begin)))).build();
+        long begin = System.nanoTime();
+//        long begin2 = System.currentTimeMillis();
+        return Response.status(200).entity(new Gson().toJson(new ResultBean(String.valueOf(RedisHandler.initJedispool(ip, Integer.parseInt(port))), String.valueOf(System.nanoTime() - begin)))).build();
     }
 
 }
