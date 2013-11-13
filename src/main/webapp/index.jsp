@@ -46,7 +46,7 @@
                     data: res,
                     dataType: "json",
                     success: function (data, status, xml) {
-                        $("#init_msg").html("result: " + data["value"] + " | cost ms: " + data["pass"]);
+                        $("#init_msg").html("result: " + data["value"] + " | cost ns: " + data["pass"]);
                     }
                 });
             })
@@ -60,7 +60,7 @@
                     data: res,
                     dataType: "json",
                     success: function (data, status, xml) {
-                        $("#set_msg").html("result: " + data["value"] + " | cost ms: " + data["pass"]);
+                        $("#set_msg").html("result: " + data["value"] + " | cost ns: " + data["pass"]);
                     }
                 });
             })
@@ -74,7 +74,7 @@
                     data: res,
                     dataType: "json",
                     success: function (data, status, xml) {
-                        $("#con_msg").html("cost ms: " + data["value"]);
+                        $("#con_msg").html("cost: " + data["value"]);
                     }
                 });
             })
@@ -87,7 +87,7 @@
                     data: res,
                     dataType: "json",
                     success: function (data, status, xml) {
-                        $("#get_msg").html("result: " + data["value"] + " | cost ms: " + data["pass"]);
+                        $("#get_msg").html("result: " + data["value"] + " | cost ns: " + data["pass"]);
                     }
                 });
             })
